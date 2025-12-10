@@ -115,16 +115,7 @@ proc_iniciador = config['iniciador']
 
 
 # =============================================================================
-# BLOCO 3: SIMULAÇÃO DE FALHA
-# =============================================================================
-if my_rank == proc_morto:
-    # Este processo simula uma falha de hardware/rede encerrando sua execução imediatamente.
-    print(f"[Sistema] Processo {my_rank} morreu (OFFLINE).")
-    sys.exit(0)
-
-
-# =============================================================================
-# BLOCO 4: INÍCIO DO PROCESSO
+# BLOCO 3: INÍCIO DO PROCESSO
 # =============================================================================
 
 # Se eu sou o processo designado para notar a falha, começo o efeito dominó.
@@ -133,7 +124,7 @@ if my_rank == proc_iniciador:
     tentar_eleicao(my_rank, num_procs, proc_morto)
 
 # =============================================================================
-# BLOCO 5: LOOP DE ESCUTA
+# BLOCO 4: LOOP DE ESCUTA
 # =============================================================================
 # Todos os processos (exceto o morto) ficam presos neste loop esperando mensagens.
 # O loop só quebra quando um novo líder é anunciado.
