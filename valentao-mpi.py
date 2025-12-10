@@ -76,7 +76,7 @@ def tentar_eleicao(eu, total, morto):
         # (ou todos os maiores eram o 'morto').
         print(f"\n!!! [Processo {eu}] Sou o maior vivo! Viro COORDENADOR !!!\n")
         
-        time.sleep(1) # Pausa apenas para o print sair organizado no terminal
+        time.sleep(1) # Pausa para organização visual
         
         # Anuncia a vitória para todos os processos menores
         for i in range(total):
@@ -132,9 +132,8 @@ if my_rank == proc_iniciador:
     print(f"[Processo {my_rank}] Percebi que {proc_morto} caiu. Iniciando eleição.")
     tentar_eleicao(my_rank, num_procs, proc_morto)
 
-
 # =============================================================================
-# BLOCO 5: LOOP DE ESCUTA (LISTENER)
+# BLOCO 5: LOOP DE ESCUTA
 # =============================================================================
 # Todos os processos (exceto o morto) ficam presos neste loop esperando mensagens.
 # O loop só quebra quando um novo líder é anunciado.
@@ -149,7 +148,7 @@ while not lider_definido:
     tag = status.Get_tag()      # Qual o assunto?
     remetente = status.Get_source() # Quem mandou?
 
-    # --- CASO A: ALGUÉM MENOR QUER FAZER ELEIÇÃO ---
+    # --- ALGUÉM MENOR QUER FAZER ELEIÇÃO ---
     if tag == TAG_ELEICAO:
         print(f"[Processo {my_rank}] Recebi ELEICAO de {remetente}.")
         
@@ -160,7 +159,7 @@ while not lider_definido:
         # Agora que calei o menor, EU tento me eleger contra os meus superiores.
         tentar_eleicao(my_rank, num_procs, proc_morto)
 
-    # --- CASO B: ALGUÉM VENCEU A ELEIÇÃO ---
+    # --- ALGUÉM VENCEU A ELEIÇÃO ---
     elif tag == TAG_LIDER:
         novo_lider = msg['id']
         print(f"[Processo {my_rank}] Reconheço {novo_lider} como NOVO COORDENADOR.")
@@ -168,7 +167,7 @@ while not lider_definido:
         # A eleição acabou, podemos sair do loop e encerrar o programa.
         lider_definido = True
 
-    # --- CASO C: RECEBI UM OK ---
+    # --- RECEBI UM OK ---
     elif tag == TAG_OK:
         # Se recebo um OK aqui no loop principal, geralmente é uma mensagem residual
         # ou fora de ordem, pois o tratamento principal do OK é feito dentro 
